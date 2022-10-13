@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "pages/*": ["./src/pages/*"],
-      "constants/*": ["./src/constants/*"]
+      "constants/*": ["./src/constants/*"],
+      "redux/*": ["./src/redux/*"]
     },
     "outDir": "./dist",
     "target": "es5",

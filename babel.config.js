@@ -7,7 +7,8 @@ module.exports = function (api) {
       "root": ["./src"],
       "alias": {
         "pages/*": "./src/pages/*",
-        "constants/*": "./src/constants/*"
+        "constants/*": "./src/constants/*",
+        "redux/*": "./src/redux/*"
       }
     }]
   ];
