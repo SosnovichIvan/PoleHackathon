@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginDto, RegisterDto, UserState } from "redux/auth/interface";
 import { AsyncThunkConfig } from "redux/inerface";
-import { loginUserApi, registerUserApi } from "../../api";
+import { loginUserApi, registerUserApi, sessionApi } from "../../api";
 
 export const loginUser = createAsyncThunk<UserState, LoginDto, AsyncThunkConfig>(
   "auth/login",
@@ -19,6 +19,17 @@ export const registerUser = createAsyncThunk<UserState, RegisterDto, AsyncThunkC
   async (registerDto, { rejectWithValue }) => {
     try {
       return await registerUserApi(registerDto);
+    } catch {
+      return rejectWithValue("Ошибка регистрации");
+    }
+  },
+);
+
+export const isSession = createAsyncThunk<UserState, undefined, AsyncThunkConfig>(
+  "auth/session",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await sessionApi();
     } catch {
       return rejectWithValue("Ошибка регистрации");
     }

@@ -7,4 +7,6 @@ export const userSelector = createSelector(authSelector, state => state.user);
 
 export const isAuthSelector = createSelector(userSelector, state => !!state?.id);
 
+export const isLoadingLogin = createSelector(authSelector, state => state.isLoading);
+
 export const authErrorSelector = createSelector(authSelector, state => state.error);

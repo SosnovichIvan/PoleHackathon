@@ -10,7 +10,7 @@ export interface Store {
 export interface AsyncThunkConfig {
   dispatch: AppDispatch;
   state: Store;
-  rejectValue: string | null;
+  rejectValue: string | null | unknown;
 }
 
 

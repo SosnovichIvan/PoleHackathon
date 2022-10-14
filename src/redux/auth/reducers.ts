@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "./interface";
-import { loginUser, registerUser } from "./actions";
+import { isSession, loginUser, registerUser } from "./actions";
 
 const initialState: AuthState = {
   user: {
@@ -45,6 +45,23 @@ const authSlice = createSlice({
         draft.user = payload;
       })
       .addCase(registerUser.rejected, (draft, { payload }) => {
+        draft.error = payload;
+        draft.isLoading = false;
+        draft.user = null;
+      })
+      .addCase(isSession.pending, (draft) => {
+        draft.error = null;
+        draft.isLoading = true;
+        draft.user = null;
+      })
+      .addCase(isSession.fulfilled, (draft, { payload }) => {
+        draft.error = null;
+        draft.isLoading = false;
+        if (payload) {
+          draft.user = payload;
+        }
+      })
+      .addCase(isSession.rejected, (draft, { payload }) => {
         draft.error = payload;
         draft.isLoading = false;
         draft.user = null;

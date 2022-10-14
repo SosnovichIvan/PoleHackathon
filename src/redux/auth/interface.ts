@@ -8,7 +8,7 @@ export interface UserState {
 export interface AuthState {
   user: UserState | null;
   isLoading: boolean;
-  error?: string | null;
+  error?: string | null | unknown;
 }
 
 export interface LoginDto {
