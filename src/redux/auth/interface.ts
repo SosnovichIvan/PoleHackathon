@@ -1,8 +1,10 @@
+export type UserPosition  = "dispatcher" | "customer";
+
 export interface UserState {
   id: string | null;
   name: string | null;
   email: string | null;
-  position: string | null;
+  position: UserPosition;
 }
 
 export interface AuthState {
@@ -12,7 +14,7 @@ export interface AuthState {
 }
 
 export interface LoginDto {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -20,4 +22,5 @@ export interface RegisterDto {
   name: string;
   email: string;
   position: string;
+  password: string;
 }

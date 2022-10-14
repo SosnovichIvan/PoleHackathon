@@ -1,27 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input } from "antd";
 import { LockOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "redux/inerface";
-import { isLoadingLogin, LoginDto, loginUser } from "redux/auth";
-import { REGISTER_PATH } from "constants/path";
+import { isLoadingLogin, isSession, LoginDto } from "redux/auth";
+import { loginUserApi } from "../../api";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  
+
   const isLoading = useAppSelector(isLoadingLogin);
-  
-  const handleLogin = (data: LoginDto) => {
-    dispatch(loginUser(data));
+
+  const handleLogin = async (loginDto: LoginDto) => {
+    const myStorage = window.localStorage;
+    const { data } = await loginUserApi(loginDto);
+    myStorage.setItem("SID", data.access_token || "");
+    if (data.access_token) {
+      dispatch(isSession(data.access_token));
+    }
   };
 
   return <Form
     onFinish={handleLogin}
-    style={{ width: 300, margin: "auto" }}
+    style={{ width: 300, alignSelf: "center", justifySelf: "center" }}
     layout="vertical"
   >
     <Form.Item
-      name="email"
+      name="username"
       label="email"
       rules={[
         {
@@ -53,14 +57,10 @@ const Login = () => {
       <Input prefix={<LockOutlined />} type="password" placeholder="Enter your password" />
     </Form.Item>
     <Form.Item>
-      <Space size={8}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          <LoginOutlined />
-          Log in
-        </Button>
-        <span>Or</span>
-        <Link to={REGISTER_PATH}>register now!</Link>
-      </Space>
+      <Button type="primary" htmlType="submit" loading={isLoading} block>
+        <LoginOutlined />
+        Log in
+      </Button>
     </Form.Item>
   </Form>;
 };
