@@ -1,10 +1,8 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
+import DoteEnv from "dotenv-webpack"
 import { BuildOptions } from './types/config';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-import dotenv from 'dotenv';
-const env = dotenv.config().parsed;
 
 export function buildPlugins({ paths }: BuildOptions): webpack.WebpackPluginInstance[] {
   return [
@@ -12,12 +10,12 @@ export function buildPlugins({ paths }: BuildOptions): webpack.WebpackPluginInst
       template: paths.html,
     }),
     new webpack.ProgressPlugin(),
+    new DoteEnv({
+      path: "./.env." + process.env.MODE
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].css',
-    }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(env),
     }),
   ];
 }
